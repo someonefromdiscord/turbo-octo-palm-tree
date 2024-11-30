@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  release:
+    types: [created]  # Trigger on new releases
 
 jobs:
   build:
@@ -27,8 +29,22 @@ jobs:
         run: |
           pyinstaller --onefile index.py  # Replace with your script name
 
-      - name: Upload executable
-        uses: actions/upload-artifact@v4
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
         with:
-          name: my-executable
-          path: dist/index.exe  # Replace with the actual path to your executable
+          tag_name: ${{ github.ref }}  # Use the tag of the release
+          release_name: Release ${{ github.ref }}
+          body: |
+            This release includes the latest build of the executable.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload executable to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/index.exe  # Replace with the actual path to your executable
+          asset_name: my-executable.exe  # Name for the uploaded asset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
