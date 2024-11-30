@@ -1,0 +1,34 @@
+name: Build Executable with PyInstaller
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Specify the Python version
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build executable
+        run: |
+          pyinstaller --onefile index.py  # Replace with your script name
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-executable
+          path: dist/index.exe  # Replace with the actual path to your executable
