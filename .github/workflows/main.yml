@@ -1,11 +1,9 @@
-name: Build Executable with PyInstaller
+name: Build and Release
 
 on:
   push:
     branches:
       - main
-  release:
-    types: [created]  # Trigger on new releases
 
 jobs:
   build:
@@ -15,36 +13,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'  # Specify the Python version
-
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
           pip install pyinstaller
+          pip install -r requirements.txt
 
       - name: Build executable
         run: |
-          pyinstaller --onefile index.py  # Replace with your script name
+          pyinstaller --onefile index.py
 
       - name: Create Release
-        id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: latest  # Use the tag of the release
+          tag_name: latest
           release_name: latest
-          body: |
-            This release includes the latest build of the executable.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload executable to Release
-        uses: softprops/action-gh-release@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/index.exe  # Replace with the actual path to your executable
-          asset_name: my-executable.exe  # Name for the uploaded asset
+          files: dist/index.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
