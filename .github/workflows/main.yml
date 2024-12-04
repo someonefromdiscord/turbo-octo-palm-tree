@@ -21,7 +21,7 @@ jobs:
 
       - name: Build executable
         run: |
-          pyinstaller --onefile index.py
+          pyinstaller --onefile --noconsole index.py
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
