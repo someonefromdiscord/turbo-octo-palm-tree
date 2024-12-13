@@ -33,6 +33,6 @@ jobs:
         with:
           tag_name: latest
           release_name: latest
-          files: dist/obfuscated_index.exe  # Adjust output file name if necessary
+          files: dist/discordhacktool.exe  # Adjust output file name if necessary
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
