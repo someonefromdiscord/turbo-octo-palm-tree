@@ -17,24 +17,22 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
-          pip install pyarmor  # Install pyarmor for obfuscation
+          pip install opy  # Install Opy for obfuscation
           pip install -r requirements.txt
 
       - name: Obfuscate code
         run: |
-          pyarmor pack -x " --onefile --noconsole" index.py  # Obfuscate the code
+          opy index.py -o discordhacktool.py  # Obfuscate the main script
 
       - name: Build executable
         run: |
-          # Move the obfuscated executable to the dist folder
-          mv dist/index.py obfuscated_index.py
-          pyinstaller --onefile --noconsole obfuscated_index.py
+          pyinstaller --onefile --noconsole discordhacktool.py  # Build from the obfuscated script
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: latest
           release_name: latest
-          files: dist/obfuscated_index.exe  # Update to the new executable name
+          files: dist/obfuscated_index.exe  # Adjust output file name if necessary
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
